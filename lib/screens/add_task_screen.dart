@@ -1,6 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:todoey_app/models/task.dart';
 
-class AddTaskScreen extends StatelessWidget {
+import '../TaskProvider.dart';
+
+class AddTaskScreen extends StatefulWidget {
+  @override
+  _AddTaskScreenState createState() => _AddTaskScreenState();
+}
+
+class _AddTaskScreenState extends State<AddTaskScreen> {
+  TextEditingController textController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -20,6 +31,7 @@ class AddTaskScreen extends StatelessWidget {
               style: TextStyle(fontSize: 30, color: Colors.lightBlueAccent),
             ),
             TextField(
+              controller: textController,
               autofocus: true,
               textAlign: TextAlign.center,
             ),
@@ -29,7 +41,11 @@ class AddTaskScreen extends StatelessWidget {
                 style: TextStyle(color: Colors.white),
               ),
               color: Colors.lightBlueAccent,
-              onPressed: () {},
+              onPressed: () {
+                Provider.of<TaskProvider>(context, listen: false)
+                    .addTask(Task(task: textController.text));
+                Navigator.of(context).pop();
+              },
             )
           ],
         ),
